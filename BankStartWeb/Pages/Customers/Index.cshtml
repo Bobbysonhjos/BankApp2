@@ -1,0 +1,66 @@
+﻿@page
+@model BankStartWeb.Pages.Customers.IndexModel
+@{
+}
+<div class="row">
+    <form>
+        <div class="col-8"><input type="text" name="searchWord" class="form-control"/></div>
+        <div class="col-4"><button class="btn btn-primary">Search</button></div>
+    </form>
+</div>
+
+        
+        
+
+
+
+
+
+
+<div class="container-fluid vh-100">   
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>National ID</th>
+            <th>Balance</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var customer in Model.Customers)
+        {  
+            <tr>
+                <td>@customer.Name</td>
+                <td>@customer.Country</td>
+                <td>@customer.City</td>
+                <td>@customer.NationalId</td>
+                <td>@customer.Balance.ToString("C")</td>
+                <td > <a class="btn btn-primary bg-success" asp-page="./Details" asp-route-Id="@customer.Id">View Details</a></td>
+            </tr>
+           
+
+
+        }
+            <tr>
+                <td>
+                    @if (Model.PageNo > 1)
+                    {
+                        <a asp-page="/Customers/Index" asp-route-col="@Model.SortCol" asp-route-order="@Model.SortOrder" asp-route-searchWord="@Model.SearchWord" asp-route-pageno="@(Model.PageNo -   1)">Prev</a>
+                    }
+                </td>
+             <td>
+                  Visar sidan @Model.PageNo av totalt @Model.TotalPageCount
+             </td>
+                <td>
+                    @if (Model.PageNo < Model.TotalPageCount)
+                    {
+                        <a asp-page="/Customers/Index" asp-route-col="@Model.SortCol" asp-route-order="@Model.SortOrder" asp-route-searchWord="@Model.SearchWord" asp-route-pageno="@(Model.PageNo + 1)">Next</a>
+                    }
+                </td>
+            </tr>
+    </tbody>
+</table>
+</div>

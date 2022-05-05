@@ -1,0 +1,17 @@
+﻿@page
+@model BankStartWeb.Pages.Customers.Accounts.WithdrawalModel
+@{
+    ViewData["Title"] = "Withdrawal";
+}
+<form method="post"> 
+    <div asp-validation-summary="All"></div>
+    <div class="mb-3">
+
+        <label asp-for="Amount" class="form-label">Amount</label>
+        <input asp-for="Amount" class="form-control" aria-describedby="emailHelp">
+        <span asp-validation-for="Amount"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

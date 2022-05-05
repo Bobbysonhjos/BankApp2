@@ -1,0 +1,158 @@
+﻿@page
+@model BankStartWeb.Pages.Customers.Accounts.DetailsModel
+@{
+}
+
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">User</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <span class="avatar avatar-md avatar-primary">
+                            <span class="avatar-initials rounded-circle "></span>
+                        </span>
+                      
+
+                        <h5 class="my-3">@Model.Account.AccountType</h5>
+                        <p class="text-muted mb-1"> @Model.Account.Balance</p>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+
+
+
+                        <div class="row">
+                          
+
+                            <div class="col-sm-3">
+                                <p class="mb-0">AccountId</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">@Model.Account.Id</p>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Balance</p>
+                            </div>
+                            <div class="col-sm-9">
+
+                                <p class="text-muted mb-0">@Model.Account.Balance.ToString("C")</p>
+                            </div>
+                        </div>
+                        <hr>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col">
+                    <div class="card mb-4 mb-md-0">
+                        <div class="card-body">
+                            <div class="row mb-2 mt-0 pt-0 pb-0 justify-content-end">
+
+                                <div class="col-auto pr-1 pl-1">
+                                    <a asp-page="./Deposits" asp-route-accountid="@Model.Account.Id" class="btn btn-primary"  role="button" aria-label="Deposit">Deposit</a>
+                                </div>
+                                <div class="col-auto pr-1 pl-1">
+                                    <a asp-page="./Withdrawal" asp-route-accountid="@Model.Account.Id" class="btn btn-primary"  role="button" aria-label="Withdrawal">Withdrawal</a>
+                                </div>
+                                <div class="col-auto pr-1 pl-1">
+                                    <button class="btn btn-primary" onclick="window.location = `/Customers/${2}/Accounts/${2}/Transaction/Transfer`" role="button" aria-label="Transfer">Transfer</button>
+                                </div>
+                            </div>
+
+
+                            <h1>All Accounts</h1>
+
+                            @foreach (var transaction in Model.Account.Transactions)
+
+                            {
+
+                                <div class="row">
+                                    <div class="col-2">
+                                        @transaction.Date
+                                    </div>
+                                    <div class="col-2">
+                                        @transaction.Amount
+                                    </div>
+                                    <div class="col-2">
+                                        @transaction.Operation
+                                    </div>
+                                    <div class="col-2">
+                                        @transaction.NewBalance
+                                    </div>
+                                    <div class="col-2">
+                                        @transaction.Id
+                                    </div>
+                                    <div class="col-2">
+                                        @transaction.Type
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
