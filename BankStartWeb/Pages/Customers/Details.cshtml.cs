@@ -19,10 +19,7 @@ namespace BankStartWeb.Pages.Customers
 
         public CustomerDetailViewModel Customer { get; private set; }
 
-        public void OnGet(int id)
-        {
-            Customer = mapper.Map<CustomerDetailViewModel>(context.Customers.Include(x=>x.Accounts).FirstOrDefault(x=>x.Id==id));
-        }
+       
         public class CustomerDetailViewModel
         {
             public int Id { get; set; }
@@ -46,6 +43,14 @@ namespace BankStartWeb.Pages.Customers
 
             public DateTime Created { get; set; }
             public decimal Balance { get; set; }
+        }
+      
+
+
+
+        public void OnGet(int id)
+        {
+            Customer = mapper.Map<CustomerDetailViewModel>(context.Customers.Include(x => x.Accounts).FirstOrDefault(x => x.Id == id));
         }
 
 

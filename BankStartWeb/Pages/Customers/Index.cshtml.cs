@@ -38,7 +38,7 @@ namespace BankStartWeb.Pages.Customers
             public string Name { get; set; }
             public string Country { get; set; }
             public string City { get; set; }
-            public decimal Balance { get; set; }
+           // public decimal Balance { get; set; }
             public string Address { get; set; }
             public string NationalId { get; set; }
 

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -10,6 +13,8 @@
     <link rel="stylesheet" href="~/BankStartWeb.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/Styling.css" asp-append-version="true" />
+    
     
 </head>
 
@@ -19,10 +24,10 @@
     <div class="container-fluid">
         
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black">
+            <div id="nav-bar-content" class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-black">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                       <i class="fs-4 bi-bank text-success"></i><span class="fs-5 d-none d-sm-inline">RobTheBank</span>
+                       <i class="fs-4 bi-bank text-success"></i><span id="bank-logo" class="fs-5 d-none d-sm-inline">RobTheBank</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li class="nav-item">
@@ -36,31 +41,24 @@
                             </a>
                             <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="#" class="nav-link px-0 text-white"> <span class="d-none d-sm-inline">Admin</span> </a>
+                                    @if (!User.Identity.IsAuthenticated)
+                                    {
+                                        <a class="collapse-item" asp-area="Identity" asp-page="/Account/Login">LogIn</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="collapse-item" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+                                    }
+                                     <!--<span class="d-none d-sm-inline">Admin</span>-->
                                 </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0 text-white"> <span class="d-none d-sm-inline">Cashier</span> </a>
-                                </li>
+                                
+                                    
+                                    
+                                
                             </ul>
                         </li>
-                        <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-table text-white"></i> <span class="ms-1 d-none d-sm-inline text-white">Orders</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
-                                <i class="fs-4 bi-bootstrap text-white"></i> <span class="ms-1 d-none d-sm-inline text-white">Accounts</span>
-                            </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                                <li class="w-100">
-                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Checking</span></a>
-                                </li>
-                                <li>
-                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Savings</span></a>
-                                </li>
-                            </ul>
-                        </li>
+                       
+                       
                   
                         <li>
                             <a asp-page="/Customers/Index" class="nav-link px-0 align-middle">
@@ -70,11 +68,11 @@
                     </ul>
                     <hr>
                     <div class="dropdown pb-4">
-                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://avatars.githubusercontent.com/u/91318701?s=96&v=4"" alt="Cool guy" width="30" height="30" class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1">Admin</span>
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://avatars.githubusercontent.com/u/91318701?s=96&v=4" alt="Cool guy" width="30" height="30" class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">@User.Identity.Name</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                        @*<ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             
                             <li><a class="dropdown-item" href="#">Profile</a>
                                 
@@ -83,7 +81,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="#">Sign out</a></li>
-                        </ul>
+                        </ul>*@
                     </div>
                 </div>
             </div>

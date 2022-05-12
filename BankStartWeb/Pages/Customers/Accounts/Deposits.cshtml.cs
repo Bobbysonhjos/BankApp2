@@ -15,7 +15,7 @@ namespace BankStartWeb.Pages.Customers.Accounts
         }
         [BindProperty]
         [Required]
-        [Range(1,10000000)]
+        [Range(1,10000000, ErrorMessage = "You can only deposit an amount between 1 and 10000000")]
         public decimal  Amount { get; set; }
 
         [BindProperty(SupportsGet =true)]

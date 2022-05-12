@@ -1,6 +1,8 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace BankStartWeb.Data;
 
@@ -8,21 +10,80 @@ public class DataInitializer
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
 
 
     public DataInitializer(ApplicationDbContext dbContext,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _dbContext = dbContext;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
 
-    public void SeedData()
+    public async Task SeedData()
     {
         _dbContext.Database.Migrate();
         SeedCustomers();
+        await SeedUsers();
     }
+    private async Task SeedUsers()
+    {
+
+
+        if (!_dbContext.Roles.Any())
+        {
+            var adminRole = new IdentityRole{Name="Admin",NormalizedName = "Admin"};
+            var cashierRole = new IdentityRole { Name = "Cashier", NormalizedName = "Cashier" };
+            _dbContext.Roles.Add(adminRole);
+            _dbContext.Roles.Add(cashierRole);
+            _dbContext.SaveChanges();
+
+        }
+
+
+
+
+
+
+        var adminUser = new IdentityUser
+        {
+            Email = "stefan.holmberg@systementor.se",
+            NormalizedEmail = "STEFAN.HOLMBERG@SYSTEMENTOR.SE",
+            UserName = "stefan.holmberg@systementor.se",
+            NormalizedUserName = "STEFAN.HOLMBERG@SYSTEMENTOR.SE",
+            EmailConfirmed = true
+
+        };
+
+        var cashierUser = new IdentityUser
+        {
+            Email = "stefan.holmberg@customer.banken.se",
+            NormalizedEmail = "STEFAN.HOLMBERG@CUSTOMER.BANKEN.SE",
+            UserName = "stefan.holmberg@customer.banken.se",
+            NormalizedUserName = "STEFAN.HOLMBERG@CUSTOMER.BANKEN.SE",
+            EmailConfirmed = true
+        };
+
+        if (!_dbContext.Users.Any())
+        {
+             _userManager.CreateAsync(adminUser, "Hejsan123#").Wait();
+
+             _userManager.AddToRoleAsync(adminUser, "Admin").Wait();
+
+             _userManager.CreateAsync(cashierUser, "Hejsan123#").Wait();
+
+             _userManager.AddToRoleAsync(cashierUser, "Cashier").Wait();
+
+        }
+
+
+
+
+    }
+
 
     private void SeedCustomers()
     {

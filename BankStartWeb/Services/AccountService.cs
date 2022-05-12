@@ -88,6 +88,7 @@ namespace BankStartWeb.Services
             var receiverTransfer = _context.Accounts
                 .Include(e => e.Transactions)
                 .FirstOrDefault(e => e.Id == receiverId);
+            if (receiverTransfer == null) return IAccountService.ErrorCode.AccountNotFound;
 
             var sender = new Transaction();
             {

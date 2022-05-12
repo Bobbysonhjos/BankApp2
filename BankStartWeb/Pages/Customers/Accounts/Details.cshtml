@@ -5,6 +5,8 @@
 
 
 <section style="background-color: #eee;">
+    
+    
     <div class="container py-5">
         <div class="row">
             <div class="col">
@@ -25,7 +27,7 @@
                         <span class="avatar avatar-md avatar-primary">
                             <span class="avatar-initials rounded-circle "></span>
                         </span>
-                      
+
 
                         <h5 class="my-3">@Model.Account.AccountType</h5>
                         <p class="text-muted mb-1"> @Model.Account.Balance</p>
@@ -42,7 +44,7 @@
 
 
                         <div class="row">
-                          
+
 
                             <div class="col-sm-3">
                                 <p class="mb-0">AccountId</p>
@@ -75,46 +77,52 @@
                             <div class="row mb-2 mt-0 pt-0 pb-0 justify-content-end">
 
                                 <div class="col-auto pr-1 pl-1">
-                                    <a asp-page="./Deposits" asp-route-accountid="@Model.Account.Id" class="btn btn-primary"  role="button" aria-label="Deposit">Deposit</a>
+                                    <a asp-page="./Deposits" asp-route-accountid="@Model.Account.Id" class="btn btn-primary bg-success" role="button" aria-label="Deposit">Deposit</a>
                                 </div>
                                 <div class="col-auto pr-1 pl-1">
-                                    <a asp-page="./Withdrawal" asp-route-accountid="@Model.Account.Id" class="btn btn-primary"  role="button" aria-label="Withdrawal">Withdrawal</a>
+                                    <a asp-page="./Withdrawal" asp-route-accountid="@Model.Account.Id" class="btn btn-primary bg-success" role="button" aria-label="Withdrawal">Withdrawal</a>
                                 </div>
                                 <div class="col-auto pr-1 pl-1">
-                                    <button class="btn btn-primary" onclick="window.location = `/Customers/${2}/Accounts/${2}/Transaction/Transfer`" role="button" aria-label="Transfer">Transfer</button>
+                                    <a asp-page="./Transfer" asp-route-accountid="@Model.Account.Id" class="btn btn-primary bg-success" role="button" aria-label="Transfer">Transfer</a>
                                 </div>
                             </div>
 
 
-                            <h1>All Accounts</h1>
 
-                            @foreach (var transaction in Model.Account.Transactions)
+                            <h1 class="head-line">All Transactions</h1>
+                           
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Amount</th>
+                                    <th>Operation</th>
+                                    <th>Date</th>
+                                    <th>NewBalance</th>
+                                    <th>Type</th>
+                                </tr>
 
-                            {
+                                </thead>
+                                <tbody id="Transactionlist">
+                                @foreach (var transaction in Model.Account.Transactions)
+                                {
+                                    <tr>
+                                        <td>@transaction.Id</td>
+                                        <td>@transaction.Amount</td>
+                                        <td>@transaction.Operation</td>
+                                        <td>@transaction.Date</td>
+                                        <td>@transaction.NewBalance</td>
+                                        <td>@transaction.Type</td>
+                                    </tr>
+                                }
+                                </tbody>
 
-                                <div class="row">
-                                    <div class="col-2">
-                                        @transaction.Date
-                                    </div>
-                                    <div class="col-2">
-                                        @transaction.Amount
-                                    </div>
-                                    <div class="col-2">
-                                        @transaction.Operation
-                                    </div>
-                                    <div class="col-2">
-                                        @transaction.NewBalance
-                                    </div>
-                                    <div class="col-2">
-                                        @transaction.Id
-                                    </div>
-                                    <div class="col-2">
-                                        @transaction.Type
-                                    </div>
-                                </div>
+                                
+                                
 
+                            </table>
 
-                            }
+                            
 
 
 
@@ -126,7 +134,54 @@
             </div>
 
         </div>
+        <a class="btn btn-dark" href="javascript:fetchMore();">See more transactions</a>
     </div>
+
+
+
+    @section Scripts
+    {
+        <script>
+            pageNo = 2;
+
+            function fetchMore() {
+                fetch("/Customers/Accounts/Details?handler=FetchMore&pageNum=" + pageNo + "&customerId=@Model.Account.Id")
+                    .then((response) => response.json())
+                    .then((json) => {
+                            pageNo = pageNo + 1;
+                            json.items.forEach(tableElements);
+                        }
+                    );
+            }
+
+            function tableElements(element) {
+                document.querySelector("#Transactionlist").innerHTML +=
+                    `<tr>
+                          <td>${element.id}</td>
+                          <td>${element.amount}</td> 
+                          <td>${element.operation}</td>
+                          <td>${element.date}</td>
+                          <td>${element.newBalance}</td>
+                          <td>${element.type}</td>
+       
+       
+                     </tr>`;
+            }
+            //document.addEventListener("DOMContentLoaded", function () {
+            //    fetchMore();
+            //});
+            //function fetchEvaluation(id, elem) {
+            //    fetch("View?handler=FetchValue&id=" + id)
+            //        .then((response) => response.json())
+            //        .then((json) => {
+            //                elem.innerHTML = json.value;
+            //            }
+
+            //        );
+
+            //}
+        </script>
+    }
 
 
 </section>

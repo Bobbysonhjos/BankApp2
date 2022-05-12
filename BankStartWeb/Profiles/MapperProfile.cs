@@ -15,7 +15,7 @@ namespace BankStartWeb.Profiles
 
             CreateMap<Customer, Pages.Customers.IndexModel.CustomerViewModel>()
                  .ForMember(x => x.Name, opt => opt.MapFrom(x => $"{x.Givenname} {x.Surname}"))
-                 .ForMember(x => x.Balance, opt => opt.MapFrom(x => x.Accounts.Sum(a => a.Balance)))
+                // .ForMember(x => x.Balance, opt => opt.MapFrom(x => x.Accounts.Sum(a => a.Balance)))
                  .ForMember(x=>x.Address, opt=>opt.MapFrom(x=>x.Streetaddress))
                     .ReverseMap();
 

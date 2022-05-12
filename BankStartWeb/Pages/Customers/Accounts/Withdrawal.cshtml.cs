@@ -15,7 +15,7 @@ namespace BankStartWeb.Pages.Customers.Accounts
         }
         [BindProperty]
         [Required]
-        [Range(1,10000000)]
+        [Range(1,10000000,ErrorMessage = "Negative or exceeding withdrawals are not possible. Check your balance to make a correct withdrawal!")] 
         public decimal Amount { get; set; }
 
         [BindProperty(SupportsGet = true)]
